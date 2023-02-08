@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BSB 통합관제시스템</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Favicon -->
+    <link href="../theme/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../theme/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../theme/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../theme/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../theme/css/style.css" rel="stylesheet">
+
+    <!--script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://kit.fontawesome.com/ee1626188c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9969c8662ad8d9cbb5042d8b658f586&libraries=services"></script>
+</head>
+
+<body style="background: #f3f3f3;">
+<div class="container-fluid position-relative d-flex p-0">
+    <!--     Spinner Start-->
+    <!--        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
+    <!--            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
+    <!--                <span class="sr-only">Loading...</span>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--     Spinner End-->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <div class="">
+            <a href="index_test.html" class="navbar-brand mx-4 mb-3">
+                <h4 class="text-primary">BSB 통합관제시스템</h4>
+            </a>
+
+            <div class="navbar-nav w-100">
+                <a href="index_test.html" class="nav-item nav-link active"><i class="bi bi-geo-alt-fill me-4"></i></i>Location</a>
+                <a href="monitor_test.html" class="nav-item nav-link"><i class="bi bi-display me-4"></i>Monitor</a>
+                <a href="info_bat_test.html" class="nav-item nav-link"><i class="bi bi-file-bar-graph-fill me-4"></i>Information</a>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-primary navbar-dark sticky-top px-4 py-0 shadow">
+            <img src="../asset/images/s-images/ba_title.png" style="width: 12%;">
+
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="col-1 w-auto m-auto text-center text-dark" id="clock">
+                    <p class="m-2 fs-5">{{date}} {{time}}</p>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-person-fill">
+                            <span class="d-lg-inline-flex fs-4 fst-normal mx-2">Admin</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+        <div class="map_wrap w-100" style="height: 94%">
+            <div id="map" class="h-100 position-relative overflow-hidden"></div>
+            <div id="menu_wrap">
+                <div class="bg-primary mb-4 p-4 w-100 rounded mt-2">
+                    <div class="rounded text-start pb-4">
+                        <p class="d-inline-grid text-secondary fs-5 fw-bold w-100">배터리 정보</p>
+                    </div>
+                    <table id="table-btr" class="info-table">
+                        <thead>
+                        <tr>
+                            <th>모델</th>
+                            <th>구분</th>
+                            <th>용량</th>
+                            <th>전압</th>
+                            <th>전류</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>테슬라</td>
+                            <td>2,150 * 1,480 * 350 / 459.2kg</td>
+                            <td>66.5kWh</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-primary p-4 w-50 rounded d-inline-grid">
+                    <div class="rounded text-start pb-4">
+                        <p class="d-inline-grid text-secondary fs-5 fw-bold w-100">BSB 실내 환경정보</p>
+                    </div>
+                    <table class="info-table">
+                        <tbody>
+                        <tr>
+                            <th>온도</th>
+                            <td>
+                                <p th:text="${tests.temp}"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>습도</th>
+                            <td><p th:text="${tests.humi}"></p></td>
+                        </tr>
+                        <tr>
+                            <th>CO</th>
+                            <td><p th:text="${testg.co}"></p></td>
+                        </tr>
+                        <tr>
+                            <th>H2</th>
+                            <td><p th:text="${testg.h2}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-primary p-4 w-45 rounded d-inline-grid weather">
+                    <div class="rounded text-start pb-4">
+                        <p class="d-inline-grid text-secondary fs-5 fw-bold w-100">현재 위치 날씨</p>
+                    </div>
+
+                    <table id="table-weather">
+                        <tbody>
+                        <tr>
+                            <th style="width: 40%"><i class="bi bi-thermometer-half fs-3"></i></th>
+                            <td><p class="sens CurrTemp fs-5"></p></td>
+                        </tr>
+                        <tr>
+                            <th><i class="bi bi-droplet-half fs-3"></i></th>
+                            <td><p class="sens CurrHumi fs-5"></p></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-primary mt-4 p-4 w-100 rounded">
+                    <div class="rounded text-start pb-4">
+                        <p class="d-inline-grid text-secondary fs-5 fw-bold w-100">배터리 안전현황</p>
+                        <i id="safety-line" class="position-absolute fs-6 bi bi-question-circle">
+                            <div>
+                                <img src="../asset/images/s-images/status_line.png" style="width: 80%;margin-left: 20%;">
+                                <table id="">
+                                    <tbody>
+                                    <tr>
+                                        <th >온도</th>
+                                        <td>25℃ 이하</td>
+                                        <td>-</td>
+                                        <td>25.1℃ 이상</td>
+                                    </tr>
+                                    <tr>
+                                        <th>습도</th>
+                                        <td>75% 미만</td>
+                                        <td>75% ~ 80%</td>
+                                        <td>80% 초과</td>
+                                    </tr>
+                                    <tr>
+                                        <th>일산화탄소</th>
+                                        <td>10ppm 미만</td>
+                                        <td>10ppm ~ 25ppm</td>
+                                        <td>25ppm 초과</td>
+                                    </tr>
+                                    <tr>
+                                        <th>수소</th>
+                                        <td>100ppm 미만</td>
+                                        <td>100ppm ~ 300ppm</td>
+                                        <td>300ppm 초과 </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </i>
+                    </div>
+                    <div class="status-div-info">
+                        <div class="status-info normal fw-bolder"></div><p>안전</p>
+                    </div>
+                    <div class="status-div-info">
+                        <div class="status-info null fw-bolder"></div><p>주의</p>
+                    </div>
+                    <div class="status-div-info">
+                        <div class="status-info null fw-bolder"></div><p>위험</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Start -->
+        <!--                          <div class="bg-secondary rounded-top p-4">-->
+        <!--                    <div class="row">-->
+        <!--                        <div class="col-12 col-sm-6 text-center text-sm-start">-->
+        <!--                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. -->
+        <!--                        </div>-->
+        <!--                        <div class="col-12 col-sm-6 text-center text-sm-end">-->
+        <!--                            &lt;!&ndash;/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/&ndash;&gt;-->
+        <!--                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>-->
+        <!--                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <!--    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../theme/lib/chart/chart.min.js"></script>
+<script src="../theme/lib/easing/easing.min.js"></script>
+<script src="../theme/lib/waypoints/waypoints.min.js"></script>
+<script src="../theme/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Clock -->
+<script src="../js/clock.js"></script>
+<!-- Map -->
+<script src="../js/map_info.js"></script>
+<!-- Random data -->
+<script src="../js/ran_data.js"></script>
+<!-- Weather -->
+<script src="../js/weather.js"></script>
+<!-- Data -->
+<script src="../js/data.js"></script>
+</body>
+
+</html>

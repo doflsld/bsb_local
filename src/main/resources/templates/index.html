@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="refresh" CONTENT="60">
+    <title>BSB 통합관제시스템</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Favicon -->
+    <link href="../theme/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../theme/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../theme/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../theme/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../theme/css/style.css?after" rel="stylesheet">
+
+    <!--script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://kit.fontawesome.com/ee1626188c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9969c8662ad8d9cbb5042d8b658f586&libraries=services"></script>
+</head>
+
+<body style="background: #f3f3f3;">
+<div class="container-fluid position-relative d-flex p-0">
+
+    <div id="sidebar"></div>
+    <!-- Content Start -->
+    <div id="content" class="content">
+        <div id="navbar"></div>
+<!--        <nav class="navbar navbar-expand bg-primary navbar-dark sticky-top px-4 py-0 w-100 shadow">
+            <img src="../asset/images/s-images/ba_title.png" style="width: 12%;">
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="col-1 w-auto m-auto text-center text-dark" id="clock">
+                    <p class="m-2 fs-5">{{date}} {{time}}</p>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-person-fill">
+                            <div id="login-drop" class="d-lg-inline-flex fs-4 fst-normal mx-2">
+                                Admin
+                            </div>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>-->
+        <div class="map_wrap w-100" style="height: 94%">
+            <div id="map" class="h-100 position-relative overflow-hidden"></div>
+        </div>
+
+    </div>
+    <!-- Content End -->
+
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../theme/lib/chart/chart.min.js"></script>
+<script src="../theme/lib/easing/easing.min.js"></script>
+<script src="../theme/lib/waypoints/waypoints.min.js"></script>
+<script src="../theme/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Include -->
+<script src="../js/include.js"></script>
+<!-- Clock -->
+<script src="../js/clock.js"></script>
+<!-- Map -->
+<!--<script src="../js/map.js"></script>-->
+<script th:inline="javascript">
+
+    var lat = [[${testm.lat}]]; lng = [[${testm.lng}]]
+    /*var lat = [[${test[0].lat}]]; lng = [[${test[0].lng}]];*/
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+            level: 12 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    var imageSrc1 = '../asset/images/s-images/marker_test.png', // 마커이미지의 주소입니다
+        imageSize1 = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+        imageOption1 = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage1 = new kakao.maps.MarkerImage(imageSrc1, imageSize1, imageOption1),
+        markerPosition1 = new kakao.maps.LatLng(lat, lng); // 마커가 표시될 위치입니다
+
+    // 마커를 생성합니다
+    var marker1 = new kakao.maps.Marker({
+        position: markerPosition1,
+        image: markerImage1, // 마커이미지 설정
+        clickable: true
+    });
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker1.setMap(map);
+
+    kakao.maps.event.addListener(marker1, 'click', function() {
+        location.href="info";
+    });
+
+</script>
+
+</body>
+
+</html>

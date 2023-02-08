@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BSB 통합관제시스템</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../theme/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../theme/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../theme/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../theme/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../theme/css/style.css" rel="stylesheet">
+
+    <!--script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9969c8662ad8d9cbb5042d8b658f586&libraries=services"></script>
+</head>
+
+<body onload=printUpdate(); style="background: #f3f3f3;">
+<div class="container-fluid position-relative d-flex p-0">
+<!--     Spinner Start-->
+<!--        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
+<!--            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
+<!--                <span class="sr-only">Loading...</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--     Spinner End-->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <div class="">
+            <a href="#" class="navbar-brand mx-4 mb-3">
+                <h4 class="text-primary">BSB 통합관제시스템</h4>
+            </a>
+
+            <div class="navbar-nav w-100">
+                <a href="#" class="nav-item nav-link active"><i class="bi bi-geo-alt-fill me-2"></i></i>위치관제</a>
+                <a href="#" class="nav-item nav-link"><i class="bi bi-building me-2"></i>배터리관리</a>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-primary navbar-dark sticky-top px-4 py-0 shadow">
+            <img src="../asset/images/s-images/ba_title.png" style="width: 12%;">
+
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="col-1 w-auto m-auto text-center text-dark" id="clock">
+                    <p class="m-2 fs-5">{{date}} {{time}}</p>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-person-fill">
+                            <span class="d-lg-inline-flex fs-4 fst-normal mx-2">Admin</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+        <div class="map_wrap w-100" style="height: 92.5%;">
+            <div id="map" class="h-100 position-relative overflow-hidden"></div>
+            <div id="select_b">
+                <p class="my-3 fs-5 fw-bold">배터리 사양별 모니터링</p>
+                <div id="checks" class="text-start mt-4">
+                    <p><input name="battery" id="b_1" class="mx-3" type="radio" value=""><label for="b_1">테슬라</label></p>
+                    <p><input name="battery" id="b_2" class="mx-3" type="radio" value=""><label for="b_2">다니고</label></p>
+                    <p><input name="battery" id="b_3" class="mx-3" type="radio" value=""><label for="b_3">배터리사양3</label></p>
+                    <p><input name="battery" id="b_4" class="mx-3" type="radio" value=""><label for="b_4">배터리사양4</label></p>
+                    <p><input name="battery" id="b_5" class="mx-3" type="radio" value=""><label for="b_5">배터리사양5</label></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Start -->
+        <!--            <div class="container-fluid pt-4 px-4">-->
+        <!--                <div class="bg-secondary rounded-top p-4">-->
+        <!--                    <div class="row">-->
+        <!--                        <div class="col-12 col-sm-6 text-center text-sm-start">-->
+        <!--                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. -->
+        <!--                        </div>-->
+        <!--                        <div class="col-12 col-sm-6 text-center text-sm-end">-->
+        <!--                            &lt;!&ndash;/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/&ndash;&gt;-->
+        <!--                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>-->
+        <!--                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+<!--    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../theme/lib/chart/chart.min.js"></script>
+<script src="../theme/lib/easing/easing.min.js"></script>
+<script src="../theme/lib/waypoints/waypoints.min.js"></script>
+<script src="../theme/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="../theme/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Clock -->
+<script src="../js/clock.js"></script>
+<!-- Map -->
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(36.229744, 127.763545), // 지도의 중심좌표
+            level: 12 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    var imageSrc1 = '../asset/images/s-images/marker_d.png', // 마커이미지의 주소입니다
+        imageSize1 = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+        imageOption1 = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage1 = new kakao.maps.MarkerImage(imageSrc1, imageSize1, imageOption1),
+        markerPosition1 = new kakao.maps.LatLng(35.159467, 126.851691); // 마커가 표시될 위치입니다
+
+    var imageSrc2 = '../asset/images/s-images/marker_a.png', // 마커이미지의 주소입니다
+        imageSize2 = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+        imageOption2 = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize2, imageOption2),
+        markerPosition2 = new kakao.maps.LatLng(36.629109, 127.322151); // 마커가 표시될 위치입니다
+
+
+    // 마커를 생성합니다
+    var marker1 = new kakao.maps.Marker({
+        position: markerPosition1,
+        image: markerImage1, // 마커이미지 설정
+        clickable: true
+    });
+
+    var marker2 = new kakao.maps.Marker({
+        position: markerPosition2,
+        image: markerImage2, // 마커이미지 설정
+        clickable: true
+    });
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker1.setMap(map);
+    marker2.setMap(map);
+
+    kakao.maps.event.addListener(marker1, 'click', function() {
+        location.href="index_info_test.html";
+    });
+    kakao.maps.event.addListener(marker2, 'click', function() {
+        location.href="index_info_test.html";
+    });
+</script>
+<!-- Template Javascript -->
+<script src="../theme/js/main.js"></script>
+</body>
+
+</html>
